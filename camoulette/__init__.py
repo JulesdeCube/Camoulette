@@ -1,4 +1,4 @@
-from .groupe import Groupe
-from .config import Config
-from .exercice import Exercice
+from .group import Group
 from .test import Test
+
+from .utils import STRICT, CROP, FLEXIBLE

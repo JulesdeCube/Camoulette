@@ -1,20 +1,22 @@
-from camoulette import Groupe, Exercice, Test, Config
+from camoulette import CROP, Group, Test
+from camoulette.test.test_result import TestResult
+from camoulette.utils import FLEXIBLE, STRICT
 
 
-class Midterm(Groupe):
+class Midterm(Group):
 
     warning = True  # enable warning (default False)
     timeout = 0.3
     extra_args = []  # ocaml extra args
-    prelude = ""  # code to inject between the load and the program
+    # code to inject between the load and the program
+    prelude = '#use "tests/test_utilities.ml";;'
 
-    class Simple(Groupe):
+    class Simple(Group):
 
-        load = ["list_tools.ml"]  # file to load
+        file = 'list_tools.ml'
 
-        class Length(Exercice):
+        class Length(Group):
 
-            prototype = ["val length: list:'a list -> int = <fun>"]
             correction = """
             let length = function
                 | [] -> 0
@@ -24,6 +26,7 @@ class Midterm(Groupe):
 
             class Empty(Test):
                 coef = 3
+
 
                 test = """
                 print_int (length []);;
@@ -47,17 +50,29 @@ class Midterm(Groupe):
 
                 stdout = "3"
 
+            class TimeOut(Test):
+
+                test = """
+                let rec print x = (
+                    print_int x;
+                    print (x + 1);
+                );;
+                print 0;;
+                """
+
+                stdout = "3"
+
             class ALot(Test):
 
+                @property
                 def test(self):
                     return "print_int (length [" + \
-                        ";".join(map(str, list(range(1000)))) + "]);;"
+                        ";".join(map(str, range(1000))) + "]);;"
 
                 stdout = "1000"
 
-        class Nth(Exercice):
+        class Nth(Group):
 
-            prototype = ["val nth: i:int -> queue:'a list -> 'a = <func>"]
             correction = """
             let nth i l =
                 if i < 0 then
@@ -69,35 +84,53 @@ class Midterm(Groupe):
                         | (i, e:: l) -> aux (i - 1, l)
                     in
                     aux(i, l)
-            ; ;
+            ;;
             """
 
-            class NegativeIndex(Test):
+            class Error(Group):
 
-                coef = 0.5
+                class NegativeIndex(Test):
 
-                test = """
-                print_list print_int (nth (-1) [1; 2; 4]); ;
-                """
+                    coef = 0.5
 
-                error_code = 2
-                stderr = 'Exception: Invalid_argument "nth: ...".'
+                    test = """
+                    print_int (nth (-1) [1; 2; 4]);;
+                    """
 
-            class Overflow(Test):
+                    mode = FLEXIBLE
 
-                coef = 0.5
+                    returncode = 2
+                    stderr = 'Exception: Invalid_argument "nth:'
 
-                test = """
-                print_list print_int (nth 3 [1; 2; 4]); ;
-                """
+                class Overflow(Test):
 
-                error_code = 2
-                # si non presiser dans le sujet vous pouvez metre que le le type
-                # ou meme que une Exception
-                stderr = 'Exception: '
-                stderr = 'Exception: Failure '
+                    coef = 0.5
+
+                    test = """
+                    print_int (nth 3 [1; 2; 4]);;
+                    """
+
+                    returncode = 2
+                    # si non presiser dans le sujet vous pouvez metre que le le type
+                    # ou meme que une Exception
+                    stderr = 'Exception: '
+                    stderr = 'Exception: Failure '
+
+            class Sucess(Group):
+
+                class Simple(Test):
+
+                    test = """
+                    print_int (nth 0 [1; 2; 4]);;
+                    """
+                    stdout = '1'
+
+                class Simple2(Test):
+
+                    test = """
+                    print_int (nth 1 [1; 2; 4]);;
+                    """
+                    stdout = '2'
 
 
-if __name__ == '__main__':
-    config: Config = Config.from_args()
-    Midterm().run(config)
+Midterm()('../../tp/caml/03/repo/raphael.gonon/').print()
