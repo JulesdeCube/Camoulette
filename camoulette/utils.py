@@ -3,8 +3,13 @@ import os
 
 import sys
 
-
-BIN = "/nix/store/6jsqrblnldrkwm8l0l10yrh29z9sb0g1-ocaml-4.12.0/bin/ocaml"
+# for nix purpose
+try:
+    from .path import OCAML_BIN
+except ImportError:
+    BIN = "ocaml"
+else:
+    BIN = OCAML_BIN
 
 STRICT = 1
 CROP = 2
