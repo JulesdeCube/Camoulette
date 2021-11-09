@@ -133,4 +133,10 @@ class Midterm(Group):
                     stdout = '2'
 
 
-Midterm()('../../tp/caml/03/repo/raphael.gonon/').print()
+import sys
+
+if len(sys.argv) != 2:
+    print("usage: python3 midterm.py path/to/studient/repo")
+    exit(1)
+
+Midterm()(sys.argv[1]).print()
