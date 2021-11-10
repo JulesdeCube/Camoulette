@@ -1,6 +1,8 @@
 from difflib import SequenceMatcher
 import os
 
+from typing import List
+
 import sys
 
 # for nix purpose
@@ -72,7 +74,7 @@ def heredity(src: object, comp: object):
             src.__dict__[key] = comp.__getattribute__(key)
 
 
-def wrap_lines(lines: list[str], size: int) -> list[str]:
+def wrap_lines(lines: List[str], size: int) -> List[str]:
     wraps_lines = []
     for line in lines:
         if line == '':

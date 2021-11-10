@@ -4,11 +4,12 @@ from camoulette.abc import AbcTest
 from camoulette.file import File
 from camoulette.group.group_result import GroupResult
 from camoulette.utils import normalize_code
+from typing import List, Dict
 
 
 class Group(AbcTest):
 
-    __tests: list[AbcTest]
+    __tests: List[AbcTest]
 
     def __sub_tests(self, group_cls: type = AbcTest):
 
@@ -37,7 +38,7 @@ class Group(AbcTest):
         self.__tests = [subtest(parent=self) for subtest in self.__sub_tests()]
 
     def __call__(self, path: Path, *,
-                 files: dict[str, File] = None) -> GroupResult:
+                 files: Dict[str, File] = None) -> GroupResult:
         if files is None:
             files = {}
         return GroupResult(self,

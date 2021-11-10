@@ -1,10 +1,12 @@
 import subprocess
 import time
 
+from typing import List
+
 
 class Result:
 
-    def __init__(self, args: list[str], program: str, timeout: float,
+    def __init__(self, args: List[str], program: str, timeout: float,
                  returncode: int, stdout: str, stderr: str, time: float) -> None:
         self.program = program
         self.args = args

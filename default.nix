@@ -4,6 +4,8 @@ pythonPackages.buildPythonPackage rec {
     version = "1.0.0";
     src = ./.;
 
+    doCheck = false;
+
     propagatedBuildInputs = [
       ocaml
     ];

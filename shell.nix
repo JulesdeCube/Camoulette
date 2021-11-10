@@ -3,7 +3,7 @@ with import <nixpkgs> {};
 let
   camoulette = (import ./. ) {
     ocaml = pkgs.ocaml;
-    pythonPackages = pkgs.python310Packages;
+    pythonPackages = pkgs.python38Packages;
   };
 in
 pkgs.mkShell {
@@ -11,6 +11,6 @@ pkgs.mkShell {
 
   buildInputs = [
     camoulette
-    pkgs.python310Packages.autopep8
+    pkgs.python38Packages.autopep8
   ];
 }
