@@ -17,7 +17,7 @@ class GroupResult:
 
     @property
     def height(self):
-        return 1 + max(map(lambda t: t.height, self.results))
+        return 1 + max(map(lambda t: t.height, self.results), default=0)
 
     def get_exercices(self):
         exercices = []
@@ -36,7 +36,7 @@ class GroupResult:
         for result in self.results:
             coef += result.coef
             grade += result.grade * result.coef
-        return grade / coef
+        return grade / coef if grade else 1
 
     def print(self, *, is_first=True, is_last=False, height=None):
         if height is None:

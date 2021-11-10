@@ -19,7 +19,7 @@ class Group(AbcTest):
             return isclass(cls) and issubclass(cls, group_cls)
 
         cls = self.__class__
-        public_name = filter(is_public, cls.__dict__)
+        public_name = filter(is_public, dir(cls))
         public_class = map(self.__getattribute__, public_name)
         tests = filter(is_sub_class, public_class)
         return list(tests)
