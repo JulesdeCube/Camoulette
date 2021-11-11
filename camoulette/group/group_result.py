@@ -36,7 +36,7 @@ class GroupResult:
         for result in self.results:
             coef += result.coef
             grade += result.grade * result.coef
-        return grade / coef if grade else 1
+        return grade / coef if coef else 1
 
     def print(self, *, is_first=True, is_last=False, height=None):
         if height is None:
