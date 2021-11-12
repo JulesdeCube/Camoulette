@@ -62,17 +62,6 @@ def similar(a, b):
                SequenceMatcher(None, b, a).ratio())
 
 
-def set_default(src: object, comp: dict):
-    for key, value in comp.items():
-        if not hasattr(src, key):
-            src.__dict__[key] = value
-
-
-def heredity(src: object, comp: object):
-    for key in dir(comp):
-        if not hasattr(src, key):
-            src.__dict__[key] = comp.__getattribute__(key)
-
 
 def wrap_lines(lines: List[str], size: int) -> List[str]:
     wraps_lines = []

@@ -2,11 +2,11 @@ from __future__ import annotations
 
 
 from pathlib import Path
-from camoulette.abc import AbcTest
+from camoulette.abc import AbcTest, set_default
 from camoulette.file import File
 from camoulette.ocaml import run_ocaml
 from camoulette.test.test_result import TestResult
-from camoulette.utils import BIN, set_default
+from camoulette.utils import BIN
 
 
 class Test(AbcTest):

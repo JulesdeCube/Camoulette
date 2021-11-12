@@ -14,13 +14,13 @@ class Group(AbcTest):
     def __sub_tests(self, group_cls: type = AbcTest):
 
         def is_public(name: str):
-            return not name.startswith('_')
+            return not name.startswith('_') and name != 'parrent'
 
         def is_sub_class(cls: type):
             return isclass(cls) and issubclass(cls, group_cls)
 
         cls = self.__class__
-        public_name = filter(is_public, dir(cls))
+        public_name = filter(is_public, list(self.__dict__) + list(cls.__dict__))
         public_class = map(self.__getattribute__, public_name)
         tests = filter(is_sub_class, public_class)
         return list(tests)

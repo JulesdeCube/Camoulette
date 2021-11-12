@@ -2,7 +2,22 @@ from __future__ import annotations
 
 from abc import ABC
 
-from camoulette.utils import STRICT, heredity, set_default
+from inspect import isclass
+from camoulette.utils import STRICT
+
+
+def set_default(src: object, comp: dict):
+    for key, value in comp.items():
+        if not hasattr(src, key):
+            src.__dict__[key] = value
+
+
+def heredity(src: object, comp: object):
+    for key in dir(comp):
+        value = comp.__getattribute__(key)
+        if not hasattr(src, key) and not (
+                isclass(value) and issubclass(value, AbcTest)):
+            src.__dict__[key] = value
 
 
 class AbcTest(ABC):
